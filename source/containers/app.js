@@ -1,11 +1,9 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { addTodo, completeTodo, setVisibilityFilter, VisibilityFilters } from '../actions'
+import AddTodo from '../components/AddTodo'
+import TodoList from '../components/TodoList'
+import Footer from '../components/Footer'
 
 import {
     Platform,
@@ -14,57 +12,51 @@ import {
     View
 } from 'react-native';
 
-const instructions = Platform.select({
-    ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-    android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
 
-class Root extends Component {
+class App extends Component {
     render() {
+        // Injected by connect() call:
+        const { dispatch, visibleTodos, visibilityFilter } = this.props
         return (
-            <View style={styles.container}>
-                <Text style={styles.welcome}>
-                    Welcome to React Native!
-                </Text>
-                <Text style={styles.instructions}>
-                    To get started, edit App.js
-                </Text>
-                <Text style={styles.instructions}>
-                    {instructions}
-                </Text>
+            <View>
+                <AddTodo
+                    onAddClick={text =>
+                        dispatch(addTodo(text))
+                    } />
+                <TodoList
+                    todos={visibleTodos}
+                    onTodoClick={index =>
+                        dispatch(completeTodo(index))
+                    } />
+                <Footer
+                    filter={visibilityFilter}
+                    onFilterChange={nextFilter =>
+                        dispatch(setVisibilityFilter(nextFilter))
+                    } />
             </View>
-        );
-
-
+        )
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-});
+function selectTodos(todos, filter) {
+    switch (filter) {
+        case VisibilityFilters.SHOW_ALL:
+            return todos
+        case VisibilityFilters.SHOW_COMPLETED:
+            return todos.filter(todo => todo.completed)
+        case VisibilityFilters.SHOW_ACTIVE:
+            return todos.filter(todo => !todo.completed)
+    }
+}
 
-function select(store){
+// Which props do we want to inject, given the global state?
+// Note: use https://github.com/faassen/reselect for better performance.
+function select(state) {
     return {
-
+        visibleTodos: selectTodos(state.todos, state.visibilityFilter),
+        visibilityFilter: state.visibilityFilter
     }
 }
 
-
-export default connect()(Root);
+// 包装 component ，注入 dispatch 和 state 到其默认的 connect(select)(App) 中；
+export default connect(select)(App)

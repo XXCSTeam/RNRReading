@@ -1,9 +1,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import category from './store/configureStore';
+import {createStore} from 'redux';
 import App from './containers/app';
+import todoApp from './reducers'
 
-const store = category;
+const store = createStore(todoApp);
 
 
 

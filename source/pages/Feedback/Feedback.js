@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ToastUtil from '../../utils/ToastUtil';
 
@@ -14,51 +14,37 @@ import {
 
 
 class Feedback extends Component {
-    // static navigationOptions = ({ navigation }) => ({
-    //     title: '建议',
-    //     tabBarIcon: ({ tintColor }) => (
-    //         <Icon name="md-thumbs-up" size={25} color={tintColor} />
-    //     ),
-    //     headerRight: (
-    //         <Icon.Button
-    //             name="md-checkmark"
-    //             backgroundColor="transparent"
-    //             underlayColor="transparent"
-    //             activeOpacity={0.8}
-    //             onPress={() => {
-    //                 navigation.state.params.handleCheck();
-    //             }}
-    //         />
-    //     )
-    // });
-    static navigationOptions = ({navigation})=>({
-        title:'建议',
-            tabBarIcon: ({tintColor})=>(
+    static navigationOptions = ({navigation}) => ({
+        title: '建议',
+        tabBarIcon: ({tintColor}) => (
             <Icon name='md-thumbs-up' size={25} color={tintColor}/>
 
         ),
-            headerRight: (
+        headerRight: (
             <Icon.Button
                 name='md-checkmark'
                 backgroundCoor='transparent'
                 underlayColor='transparent'
                 activeOpacity={0.8}
-                onPress={()=>{
+                onPress={() => {
                     navigation.state.params.handleCheck();
                 }}
-                style={{backgroundColor:'#3e9ce9'}}
+                style={{backgroundColor: '#3e9ce9'}}
             />
         )
     })
-    constructor(props){
+
+    constructor(props) {
         super(props);
-        this.feedbackText='';
+        this.feedbackText = '';
     }
+
     componentDidMount() {
         this.feedbackText = '';
-        this.props.navigation.setParams({ handleCheck: this.onActionSelected });
+        this.props.navigation.setParams({handleCheck: this.onActionSelected});
     }
-        render() {
+
+    render() {
         return (
             <View style={styles.container}>
                 <TextInput
@@ -79,18 +65,23 @@ class Feedback extends Component {
             </View>
         );
     }
-        onActionSelected = () => {
+
+
+    onActionSelected = () => {
         if (this.feedbackText === undefined || this.feedbackText.replace(/\s+/g, '') === '') {
             ToastUtil.showShort('请填写建议内容哦~');
+            Keyboard.dismiss();//把弹出的键盘收回去
         } else {
             ToastUtil.showShort('您的问题已反馈，我们会及时跟进处理');
             this.textInput.clear();
-            this.feedbackText='';
+            this.feedbackText = '';
             Keyboard.dismiss();//把弹出的键盘收回去
         }
     };
 
+
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

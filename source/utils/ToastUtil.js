@@ -6,7 +6,7 @@ const showShort=(content,isAlert)=>{
     if(isAlert || Platform.OS === 'ios'){
         Alert.alert('提示',content.toString());
     }else{
-        ToastAndroid.show(content,toString(),ToastAndroid.SHORT); //ToastAndroid.SHORT提示信息持续的时间
+        ToastAndroid.show(content.toString(),ToastAndroid.SHORT); //ToastAndroid.SHORT提示信息持续的时间
     }
 };
 const showLong= (content,isAlert)=>{
@@ -21,3 +21,4 @@ export default {
     showShort,
     showLong
 }
+

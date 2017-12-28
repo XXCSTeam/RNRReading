@@ -1,62 +1,70 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { addTodo, completeTodo, setVisibilityFilter, VisibilityFilters } from '../actions'
-import AddTodo from '../components/AddTodo'
-import TodoList from '../components/TodoList'
-import Footer from '../components/Footer'
+import {StackNavigator,TabNavigator} from 'react-navigation';
+import Splash from '../pages/Splash';
+import CategoryContainer from './CategoryContainer';
+import MainContainer from './MainContainer';
+import WebViewPage from '../pages/ItemDetail/WebViewPage';
+import Feedback from '../pages/Feedback/Feedback';
+import About from '../pages/About/About';
 
-import {
-    Platform,
-    StyleSheet,
-    Text,
-    View
-} from 'react-native';
+const TabContainer = TabNavigator(
+    {
+        Main:{ screen: MainContainer},
+        Category:{ screen: CategoryContainer},
+        Feedback:{ screen: Feedback},
+        About:{ screen: About},
+    },
+    {
+        lazy:true,//app打开时将底部的标签全部加载，默认false
+        tabBarPosition:'bottom',
+        tabBarOptions:{
+            activeTintColor:'#3e9ce9',
+            inactiveTintColor:'#999',
+            showIcon:true,
+            style:{
+                backgroundColor:'#fff'
+            },
+            indicatorStyle:{//选项卡底部的行，android底部会多一条线，解决方案：将height：0
+                opacity:0
+            },
+            tabStyle:{
+                padding:0
+            }
 
 
-class App extends Component {
-    render() {
-        // Injected by connect() call:
-        const { dispatch, visibleTodos, visibilityFilter } = this.props
-        return (
-            <View>
-                <AddTodo
-                    onAddClick={text =>
-                        dispatch(addTodo(text))
-                    } />
-                <TodoList
-                    todos={visibleTodos}
-                    onTodoClick={index =>
-                        dispatch(completeTodo(index))
-                    } />
-                <Footer
-                    filter={visibilityFilter}
-                    onFilterChange={nextFilter =>
-                        dispatch(setVisibilityFilter(nextFilter))
-                    } />
-            </View>
-        )
+        }
     }
-}
+);
 
-function selectTodos(todos, filter) {
-    switch (filter) {
-        case VisibilityFilters.SHOW_ALL:
-            return todos
-        case VisibilityFilters.SHOW_COMPLETED:
-            return todos.filter(todo => todo.completed)
-        case VisibilityFilters.SHOW_ACTIVE:
-            return todos.filter(todo => !todo.completed)
+const App = StackNavigator(
+    {
+        // Splash: { screen: Splash},
+        Category: {
+            screen: CategoryContainer,
+            navigationOptions:{
+                headerLeft:null
+            }
+        },
+        Home: {
+            screen: TabContainer,
+            navigationOptions: {
+                headerLeft:null  //  设置导航条左侧，可以是按钮或者其他
+            }
+        },
+        web:{ screen: WebViewPage}
+    },
+    {
+        headerMode: 'screen',         //边缘滑动返回上级页面时动画效果
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor:'#3e9ce9'
+            },
+            headerTitleStyle: {
+                color:'#fff',
+                fontSize:20
+            },
+            headerTintColor:'#fff'
+        }
     }
-}
 
-// Which props do we want to inject, given the global state?
-// Note: use https://github.com/faassen/reselect for better performance.
-function select(state) {
-    return {
-        visibleTodos: selectTodos(state.todos, state.visibilityFilter),
-        visibilityFilter: state.visibilityFilter
-    }
-}
-
-// 包装 component ，注入 dispatch 和 state 到其默认的 connect(select)(App) 中；
-export default connect(select)(App)
+);
+export default App;

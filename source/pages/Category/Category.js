@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-// import PropTypes from 'prop-types';
 import {
     InteractionManager,
     StyleSheet,
@@ -10,8 +9,6 @@ import {
     Alert,
     Text
 } from 'react-native';
-// import AV from 'leancloud-storage';
-// import store from 'react-natie-simple-store';
 import Button from '../../components/Button';
 
 let tempTypeIds = [];

@@ -50,7 +50,7 @@ const App = StackNavigator(
                 headerLeft:null  //  设置导航条左侧，可以是按钮或者其他
             }
         },
-        web:{ screen: WebViewPage}
+        Web:{ screen: WebViewPage}
     },
     {
         headerMode: 'screen',         //边缘滑动返回上级页面时动画效果

@@ -18,14 +18,7 @@ class Button extends Component{
         )
     }
 }
-// Button.propTypes={
-//     onPress: React.propTypes.func,
-//     disabled: React.propTypes.bool,
-//     style: Text.React.propTypes.style,
-//     containerStyle: React.propTypes.style,
-//     text: React.propTypes.string,
-//     activeOpacity: React.propTypes.number
-// }
+
 Button.defaultProps={
     onPress:function(){},
     disabled: false,

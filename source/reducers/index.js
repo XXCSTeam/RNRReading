@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { ADD_TODO, COMPLETE_TODO, SET_VISIBILITY_FILTER, VisibilityFilters,CHOOSE_CATEGORY,CANCLE_CATEGORY,CATEGORYLIST,TOTALNUM } from '../actions';
 const { SHOW_ALL } = VisibilityFilters;
+import read from './read'
 
 function visibilityFilter(state = SHOW_ALL, action) {
     switch (action.type) {
@@ -72,7 +73,8 @@ const todoApp = combineReducers({
     visibilityFilter,
     todos,
     category,
-    totalNum
+    totalNum,
+    read
 })
 
 export default todoApp

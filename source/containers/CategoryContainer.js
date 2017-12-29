@@ -36,7 +36,6 @@ class CategroContainer extends Component {
                 underlayColor='transparent'
                 activeOpacity={0.8}
                 onPress={()=>{
-                    // let num=navigation.dispatch(totalNum());
                     navigation.state.params? navigation.state.params.clickBtn():()=>{};
 
                 }}

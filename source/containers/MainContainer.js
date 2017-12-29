@@ -6,7 +6,10 @@ import TodoList from '../components/TodoList';
 import Footer from '../components/Footer';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../components/Button';
-// import Main from '../pages/MainPage/Main';
+import Main from '../pages/MainPage/Main';
+import {bindActionCreators} from 'redux';
+import * as readCreators from '../actions/read';
+
 
 
 
@@ -67,21 +70,21 @@ class App extends Component {
                     style={styles.container}
                     horizontal={false}
                 >
-                    {/*<Main {...this.props} />*/}
-                    <AddTodo
-                        onAddClick={text =>
-                            dispatch(addTodo(text))
-                        } />
-                    <TodoList
-                        todos={visibleTodos}
-                        onTodoClick={index =>
-                            dispatch(completeTodo(index))
-                        } />
-                    <Footer
-                        filter={visibilityFilter}
-                        onFilterChange={nextFilter =>
-                            dispatch(setVisibilityFilter(nextFilter))
-                        } />
+                    <Main {...this.props} />
+                    {/*<AddTodo*/}
+                        {/*onAddClick={text =>*/}
+                            {/*dispatch(addTodo(text))*/}
+                        {/*} />*/}
+                    {/*<TodoList*/}
+                        {/*todos={visibleTodos}*/}
+                        {/*onTodoClick={index =>*/}
+                            {/*dispatch(completeTodo(index))*/}
+                        {/*} />*/}
+                    {/*<Footer*/}
+                        {/*filter={visibilityFilter}*/}
+                        {/*onFilterChange={nextFilter =>*/}
+                            {/*dispatch(setVisibilityFilter(nextFilter))*/}
+                        {/*} />*/}
                 </ScrollView>
                 </View>
 
@@ -149,6 +152,13 @@ function select(state) {
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    const readActions = bindActionCreators(readCreators, dispatch);  //将action包装成直接可被调用的函数
+    return {
+        readActions
+    };
+};
+
 
 // 包装 component ，注入 dispatch 和 state 到其默认的 connect(select)(App) 中；
-export default connect(select)(App)
+export default connect(select,mapDispatchToProps)(App)

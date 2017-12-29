@@ -1,6 +1,21 @@
 
 import * as types from '../actions/read';
-const ImgUrl='../img/about_logo.png';
+const ImgUrl='https://www.baidu.com/';
+const Article=[
+    {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'4天前'},
+    {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'4天前'},
+    {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'4天前'},
+    {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'4天前'},
+    {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'4天前'},
+    {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'4天前'},
+    {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'4天前'},
+    {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'4天前'},
+    {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'4天前'},
+    {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'4天前'},
+    {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'4天前'},
+    {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'4天前'},
+    {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'4天前'},
+]
 
 const initialState = {
   isRefreshing: false,
@@ -8,8 +23,6 @@ const initialState = {
   isLoadMore: false,
   noMore: false,
   articleList: [
-      {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'四天前'},
-      {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'四天前'},
       {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'四天前'},
       {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'四天前'},
       {contentImg:ImgUrl,title:'中国三四城市的赚钱机会越来越多',userName:'中国经济报',date:'四天前'},
@@ -33,45 +46,22 @@ export default function read(state = initialState, action) {
         loading: action.loading,
         isLoadMore: action.isLoadMore
       });
-    case types.RECEIVE_ARTICLE_LIST:
-      return Object.assign({}, state, {
-        isRefreshing: false,
-        isLoadMore: false,
-        noMore: action.articleList.length === 0,
-        articleList: state.isLoadMore
-          ? loadMore(state, action)
-          : combine(state, action),
-        loading: state.articleList[action.typeId] === undefined
-      });
+      case types.REQUEST_ARTICLE_LIST:
+        return Object.assign({}, state, {
+          isRefreshing: action.isRefreshing,
+          isLoadMore: action.loading,
+          noMore: action.articleList && action.articleList.length === 0,
+          articleList: state.isLoadMore
+            ? loadMore(state, action)
+            : state.articleList,
+        });
+
     default:
       return state;
   }
 }
 
-function combine(state, action) {
-  state.articleList[action.typeId] = action.articleList;
-  return state.articleList;
-}
 
 function loadMore(state, action) {
-  state.articleList[action.typeId] = concatFilterDuplicate(
-    state.articleList[action.typeId],
-    action.articleList
-  );
-  return state.articleList;
-}
-
-/**
- * filter duplicate data when loading more.
-*/
-function concatFilterDuplicate(list1, list2) {
-  const set = new Set(list1.map(item => item.id));
-  const filterList2 = [];
-  const length = list2.length;
-  for (let i = 0; i < length; i++) {
-    if (!set.has(list2[i].id)) {
-      filterList2.push(list2[i]);
-    }
-  }
-  return list1.concat(filterList2);
+    return state.articleList.concat(Article);
 }

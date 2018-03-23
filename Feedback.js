@@ -10,7 +10,8 @@ import {
     View,
     TextInput,
     Keyboard,
-    TouchableHighlight
+    TouchableHighlight,
+    Linking
 } from 'react-native';
 
 
@@ -38,7 +39,8 @@ class Feedback extends Component {
     constructor(props) {
         super(props);
         this.searchText = '';
-        this.contentImg = 'http://image.baidu.com/search/index?tn=baiduimage&fm=result&ie=utf-8&word=';
+        this.contentImg = 'http://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=';
+        this.mobileImg = 'm.baidu.com/s?word='
     }
 
     componentDidMount() {
@@ -68,9 +70,14 @@ class Feedback extends Component {
                     </View>
                     <View style={{flex:1}}>
                         <TouchableHighlight style={{flex:1,alignItems:'center',justifyContent:'center'}} onPress={this.onActionSelected}>
-                            <Text>搜索</Text>
+                            <Text></Text>
                         </TouchableHighlight>
                     </View>
+                    {/* <View style={{flex:1}}>
+                        <TouchableHighlight style={{flex:1,alignItems:'center',justifyContent:'center'}} onPress={this.onActionSelected}>
+                            <Text>手机</Text>
+                        </TouchableHighlight>
+                    </View> */}
                 </View>
             </View>
         );
@@ -86,9 +93,12 @@ class Feedback extends Component {
             // this.textInput.clear();
             // this.searchText = '';
             article.userName = this.searchText;
+            let URL = this.contentImg;
+            
             article.contentImg = this.contentImg+this.searchText;
-            const { navigate } = this.props.navigation;
-            navigate('Web', { article });
+            // const { navigate } = this.props.navigation;
+            // navigate('Web', { article });
+            Linking.openURL(article.contentImg)
             Keyboard.dismiss();//把弹出的键盘收回去
         }
     };

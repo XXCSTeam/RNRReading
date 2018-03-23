@@ -61,7 +61,8 @@ class Feedback extends Component {
                             placeholder="请输入搜索内容！"
                             placeholderTextColor="#aaaaaa"
                             underlineColorAndroid="transparent"
-                            multiline
+                            multiline = {false}
+                            onSubmitEditing = {this.onActionSelected}
                             autoFocus
                             onChangeText={(text) => {
                                 this.searchText = text;
@@ -70,7 +71,7 @@ class Feedback extends Component {
                     </View>
                     <View style={{flex:1}}>
                         <TouchableHighlight style={{flex:1,alignItems:'center',justifyContent:'center'}} onPress={this.onActionSelected}>
-                            <Text></Text>
+                            <Text>搜索</Text>
                         </TouchableHighlight>
                     </View>
                     {/* <View style={{flex:1}}>
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
     textInput: {
         flex: 1,
         fontSize: 18,
-        padding: 15,
+        // padding: 15,
         textAlignVertical: 'center',
     },
     box:{
